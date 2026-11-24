@@ -98,7 +98,7 @@ jobs:
           artifact-name: nexus-store-sbom
 
       - name: 'Publicar artefato imutável do build'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: nexus-store-dist-${{ github.sha }}
           path: dist/
