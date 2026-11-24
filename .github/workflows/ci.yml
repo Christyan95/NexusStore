@@ -1,0 +1,106 @@
+name: 'CI · Nexus Store Quality & Security Gates'
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  secret-scan:
+    name: '01 · Secret Scanning (Gitleaks)'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: 'Checkout completo para histórico'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 'Varredura de segredos'
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  quality-and-tests:
+    name: '02 · Typecheck, Lint, Format & Tests'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [secret-scan]
+    permissions:
+      contents: read
+    steps:
+      - name: 'Checkout do repositório'
+        uses: actions/checkout@v4
+
+      - name: 'Configurar Node.js 22'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 'Instalar dependências determinísticas'
+        run: npm ci
+
+      - name: 'Verificar formatação (Prettier)'
+        run: npm run format:check
+
+      - name: 'Verificar tipagem estrita (TypeScript)'
+        run: npm run typecheck
+
+      - name: 'Executar análise estática (ESLint)'
+        run: npm run lint
+
+      - name: 'Executar testes unitários e integração com cobertura'
+        run: npm run test:coverage
+
+      - name: 'Auditoria de vulnerabilidades SCA (npm audit)'
+        run: npm audit --omit=dev --audit-level=high
+
+  build-and-sbom:
+    name: '03 · Build de Produção & SBOM'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [quality-and-tests]
+    permissions:
+      contents: read
+    steps:
+      - name: 'Checkout do repositório'
+        uses: actions/checkout@v4
+
+      - name: 'Configurar Node.js 22'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 'Instalar dependências determinísticas'
+        run: npm ci
+
+      - name: 'Compilar artefato de produção'
+        run: npm run build
+
+      - name: 'Gerar SBOM CycloneDX do build'
+        uses: anchore/sbom-action@v0
+        with:
+          path: ./
+          format: cyclonedx-json
+          output-file: sbom.cyclonedx.json
+          upload-artifact: true
+          artifact-name: nexus-store-sbom
+
+      - name: 'Publicar artefato imutável do build'
+        uses: actions/upload-artifact@v4
+        with:
+          name: nexus-store-dist-${{ github.sha }}
+          path: dist/
+          retention-days: 7

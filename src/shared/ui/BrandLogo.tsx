@@ -1,0 +1,32 @@
+interface BrandLogoProps {
+  readonly className?: string;
+}
+
+export function BrandLogo({ className = 'h-10 w-10' }: BrandLogoProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 64 64"
+      fill="none"
+      aria-hidden="true"
+      className={className}
+    >
+      <defs>
+        <linearGradient
+          id="nexus-mark-bg"
+          x1="0"
+          y1="0"
+          x2="64"
+          y2="64"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0%" stopColor="#4F46E5" />
+          <stop offset="100%" stopColor="#1E1B4B" />
+        </linearGradient>
+      </defs>
+      <rect width="64" height="64" rx="16" fill="url(#nexus-mark-bg)" />
+      <path d="M18 46V18h7.2l13.6 18.2V18H46v28h-7.2L25.2 27.8V46H18Z" fill="#FFFFFF" />
+      <circle cx="46" cy="18" r="4" fill="#38BDF8" />
+    </svg>
+  );
+}

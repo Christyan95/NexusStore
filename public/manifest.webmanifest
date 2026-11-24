@@ -1,0 +1,18 @@
+{
+  "name": "Nexus Store — Curadoria de Ofertas Verificadas",
+  "short_name": "Nexus Store",
+  "description": "Ofertas selecionadas da Amazon, Mercado Livre e Shopee com preços transparentes e links oficiais seguros.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#4f46e5",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

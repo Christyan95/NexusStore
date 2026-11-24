@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="og-bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="60%" stop-color="#1E1B4B" />
+      <stop offset="100%" stop-color="#312E81" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#og-bg)" />
+  <circle cx="150" cy="120" r="220" fill="#4F46E5" fill-opacity="0.22" />
+  <circle cx="1060" cy="520" r="260" fill="#06B6D4" fill-opacity="0.16" />
+  <rect x="96" y="132" width="76" height="76" rx="18" fill="#4F46E5" />
+  <path d="M117 190v-40h10.5l19 25.5V150H157v40h-10.5l-19-25.5V190H117Z" fill="#FFFFFF" />
+  <text x="196" y="185" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="44" font-weight="800">Nexus Store</text>
+  <text x="96" y="305" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="62" font-weight="800">Ofertas Verificadas em</text>
+  <text x="96" y="380" fill="#38BDF8" font-family="system-ui, -apple-system, sans-serif" font-size="62" font-weight="800">Amazon, Mercado Livre e Shopee</text>
+  <text x="96" y="465" fill="#CBD5E1" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="400">Curadoria transparente, preços auditáveis e links oficiais seguros.</text>
+</svg>
